@@ -1,0 +1,438 @@
+\documentclass[twocolumn]{article}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\setlength{\columnsep}{18pt}
+\usepackage[italian]{babel}
+% Useful packages
+\usepackage{amsmath}
+\renewcommand{\algorithmiccomment}[1]{// #1}
+ 
+\usepackage{svg}
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{algorithm}
+
+
+\usepackage{soul}
+\usepackage{xcolor}
+\usepackage{algorithmic}
+
+
+\usepackage[skins]{tcolorbox}
+\tcbset{commonstyle/.style={boxrule=0pt,sharp corners,enhanced jigsaw,boxsep=0pt,left=\fboxsep,right=\fboxsep}}
+\newtcolorbox{mycolorbox}[1][]{commonstyle,#1}
+\definecolor{colorone}{RGB}{220,220,220}
+
+\newcommand{\definition}[1]{\begin{mycolorbox}[colback=colorone]
+\fontfamily{qcr}\selectfont #1 \fontfamily{cmr}\selectfont
+\end{mycolorbox}}
+
+\definecolor{colortwo}{RGB}{197, 227, 236}
+\newcommand{\hypothesis}[1]{\begin{mycolorbox}[colback=colortwo]
+\fontfamily{qcr}\selectfont #1 \fontfamily{cmr}\selectfont
+\end{mycolorbox}}
+
+
+\definecolor{colorthree}{RGB}{241, 241, 241}
+\newcommand{\demonstration}[1]{\begin{mycolorbox}[colback=colothree]
+\fontfamily{qcr}\selectfont #1 \fontfamily{cmr}\selectfont
+\end{mycolorbox}}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-sa},
+    version={3.0},
+]{doclicense}
+\usepackage{graphicx}
+
+\usepackage{fancyhdr}
+\usepackage{imakeidx}
+\makeindex[columns=3, title=Alphabetical Index, intoc]
+\hypersetup{ 
+     colorlinks=true, 
+     linkcolor=black, 
+     filecolor=black, 
+     citecolor=black,       
+     urlcolor=blue, 
+     } 
+
+\begin{document}
+\twocolumn[{\centering{\Huge Algoritmi e Strutture Dati \par}\vspace{3ex}
+        {\large Leonardo Marro, Linda Primicino \par}\vspace{3ex}
+	\today\par\vspace{4ex}{\small \fbox{\doclicenseThis} \par}\vspace{2ex}}]
+\tableofcontents
+\clearpage
+
+
+\part{Algoritmi}
+Testo Teoria, Introduzione agli algoritmi e strutture dati di Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein.
+\newline Testo Laboratorio (opzionale), Horstmann Concetti di informatica e fondamenti di Java.
+\section{Introduzione}
+La vera Informatica si basa sullo sviluppo degli \textbf{Algoritmi} caratterizzato da un certo metodo di pensieri: \begin{itemize}
+    \item Comprendere Problemi;
+    \item Concettualizzare ed astrarre (Algoritmi grafi);
+    \item Cercare soluzioni generali;
+    \item Descriverle con esattezza;
+    \item Valutare la correttezza e l'efficienza delle soluzioni.\begin{itemize}
+        \item Le soluzioni possono essere sufficienti o insufficienti, efficienti o inefficienti, esatte o errate. 
+    \end{itemize}
+\end{itemize}
+Grazie a questo metodo di analisi si arriva a diverse realizzazioni che posso usare strutture dati differenti, noi punteremo a sviluppare un modello di calcolo.
+
+Utilizzeremo di sovente dello \textbf{pseudo-codice}, ovvero un codice scritto il linguaggio \textbf{naturale} non legato ad una particolare scelta, tecnologia, architettura. 
+
+\textbf{Post-Condizione}: Descrizione dell'output in base all'input.
+
+\textbf{Invariante del Ciclo}: [missing]; 
+
+\section{Domande e Risposte}
+\begin{tabular}{c|c}
+    Cosa Calcola? & Trovare l'invariante di 
+    \\ & ciclo \\
+    In quanto tempo? & \hyperlink{tempo}{Analisi del Caso peggiore} \\
+    Come confrontare due \\ algoritmi? & Complessità asintotica \\
+    Ci sono soluzioni \\ migliori? & \hyperlink{meglio}{Ricerca del meglio} \\
+    Come memorizzare \\ efficientemente i dati? & \hyperlink{dati}{Strutture dati} \\ 
+      \\Come esplorare & Scansione, \\ strutture dati? &Ricerca dicotomica e \\ &Visita \\ \\
+      Quali sono le proprietà & Ordinamento,\\ dei dati?&connessione,  \\ & sotto struttura minima,\\ & partizionamenti
+\end{tabular}
+\subsection{Calcolo del Tempo}
+Il \hypertarget{tempo}{calcolo del tempo} di esecuzione di una funzione si complica notevolmente nel caso di utilizzo di funzioni ricorsive in quanto non siamo a conoscenza del numero di cicli, vedremo più avanti i diversi calcoli e formule necessarie. Esistono due obbiettivi di calcolo: \textit{Analisi del calcolo peggiore}, dove si cerca la durata massima di una funzione, e \textit{Analisi del caso medio}, più complicata siccome usa concetti di probabilità (tempo è una v.a) per trovare la durata del caso più probabile.
+
+\subsection{Ricerca del "Meglio"}
+Durante la creazione degli algoritmi una domanda importante è "\hypertarget{meglio}{Posso fare di meglio?}", useremo lo studio di confini superiori e inferiori per la valutazione ed il calcolo della risposta a questa domanda. Questa è una tipica \textbf{Domanda di Esame}: \begin{enumerate}
+    \item Quando x ritorna y?
+    \item Qual è la complessità in termini O?
+    \item \textit{Sapreste indicare un algoritmo simile che risponda con un tempo asintoticamente migliora?}
+\end{enumerate}.
+
+\subsection{Memorizzazione dei Dati}
+Un grande problema nello sviluppo è la \hypertarget{dati}{memorizzazione dei dati}, studieremo diverse strutture dati sia statiche che dinamici e di algoritmi di inserimento che operano su queste ultime. Classificheremo gli algoritmi in due categorie: puramente \textbf{inspettive} (non distruttive, non modificano) oppure \textbf{distruttivi} (mutiamo i valori) e i relativi criteri. In aggiunta valuteremo la \textbf{complessità ammortizzata}, ovvero tutta la vita della struttura dati (anche questo si baserà su una \textit{stima}).
+
+\section{Problemi e Algoritmi}
+\subsection{Problemi computazionali}
+Un problema computazionale è un insieme di domande chiamate \textbf{istanze} per cui si ha stabilito un criterio per riconoscere le risposte corrette. Esempi di problemi computazionali:
+\begin{itemize}
+    \item Moltiplicazione
+    \item Fattorizzazione
+    \item Ordinamento
+    \item Ordinamento topologico \textbf{(R non univoca)}
+    \item Percorso ottimo \textbf{(R non univoca)}
+\end{itemize}
+Un problema computazionale è una \textbf{Relazione} (Attenzione! Non è una funzione!) definibile attraverso l'aritmetica di Peano, ovvero formalizzabile almeno al primo ordine.
+\[R = \{ [missing] \}\]
+\[ dom(R) = \{ i | \exists r,(i,r) \in R \}\]
+NON SEMPRE UNIVOCA, i problemi di computazione possono accettare più risposte.
+\section{Algoritmo}
+Un algoritmo è una procedura,che termina per ogni ingresso ammissibile. 
+\newline Viene definito \textbf{corretto} rispetto ad un problema se ad ogni istanza associa un output cui soddisfa il criterio di sicurezza, \textbf{un algoritmo corretto risolve un problema computazionale}.
+\newline Una procedura è una sequenza finita di operazioni meccanicamente eseguibili.
+\subsection{La funzione I/O}
+Prendendo molteplici volte lo stesso input l'algoritmo fornirà sempre la stessa uscita, per questo gli algoritmi sono \textbf{deterministici}, si può associare una funzione input-output ad ogni algoritmo.
+\newline Un algoritmo è quindi corretto rispetto ad R , se la funzione input/output A associa una risposta ad ogni istanza di R tale che:
+\newline \[(i,A(i)) \in R\ \forall i \in dom(R) \]
+\subsection{Differenza tra Programma e Algoritmo}
+Si dice che un algoritmo risolve un problema [missing]
+Un programma differisce da un algoritmo in quanto: un programma può contenere diversi algoritmi, un programma è scritto in uno specifico linguaggio, il programma lavora su una struttura dati.
+\newline \large \textit{Algorithms + Data Structures = Programs}
+\section{Peak Finding}
+\textcolor{blue}{Input}: Un vettore A[0..n-1] di interi positivi. \newline
+\textcolor{red}{Output}: Un intero $0 \leq p \leq n$ tale che $A[p-1] \leq A[p] \geq A[p+1]$ dove $A[-1] = A[n] = -\infty$
+\begin{algorithm}
+\caption{Peak-Find-Left(A,n)}
+    \begin{algorithmic}
+\STATE $p\leftarrow0$
+\STATE $p\leftarrow1$
+\WHILE{ $k < n \land A[p] < A[k]$ }
+    \STATE $p\leftarrow k$
+    \STATE $k \leftarrow k+1$
+\ENDWHILE
+\RETURN p
+    \end{algorithmic}
+\end{algorithm}
+
+
+Nel caso migliore p=0 è un picco, nel caso peggiore il picco è l'elemento più a sinistra $p=n-1$, si scorre in questo modo l'intero vettore effettuando $n-1$ confronti.
+\newline Con lo stesso sforzo si trova il picco più alto, attraverso l'algoritmo di Peak finding-MAX.
+\newline \textbf{Cosa garantisce quindi , di avere un picco nel vettore A[i..j] con $i \geq j$?}
+\newline 
+\hypothesis{
+Ipotesi: \newline Se $A[i-1] \leq A[i] e A[j] \geq A[j+1]$, deve esserci allora un picco nel segmento A[i...j].}
+\definition{
+\newline Teorema: \newline Siano i e j tali che :
+\newline $i \leq j$ e A[i..j] un vettore di n-interi.
+\newline Se $A[i-1] < A[i]$ e $A[j] > A[j+1]$ allora esiste $i \leq p \leq j$ tale che $A[p-1] \leq A[p] \geq A[p+1]$, ossia \textbf{p} è un \textbf{picco} in $A[i...j]$.}
+\demonstration{
+\newline Dimostrazione: \newline Se i=j allora , $A[i-1] \leq A[i] \geq A[i+1]$,
+p=i è \textbf{un picco}.
+\newline Se i e j sono diversi, si sceglie una qualsiasi posizione q , tale che $i \leq q \leq j$
+\begin{enumerate}
+    \item $A[q-1] \leq A[q] \geq A[q+1]$ \textbf{q è un picco}
+    \item $A[q-1] > A[q]$ \textbf{q non è un picco}
+    \item $A[q] < A[q+1]$ \textbf{q non è un picco}
+\end{enumerate}
+
+\newline Se q non è picco, siano :
+\newline $ i_1 = i $ e $ j_1 = q-1$ per $A[q-1] > A[q]$
+\newline $ i_1 = q+1 $ e $ j_1 = j$ per $A[q-1] < A[q]$
+\newline si ha così:
+\newline $A[i_1-1] \leq A[i_1]$ e $A[j_1] \geq A[j_1+1]$, deve esserci allora un picco nel segmento $A[i_1...j_1]$.}
+
+\newline Il nuovo segmento contiene meno elementi di quello precedente.
+Si ripete quindi la procedura descritta sopra, si sceglie un nuovo punto $ q_1 $, si verifica se $ i_1 = j_1$ oppure se risultano diversi, in quel caso si dimezzerà ancora il segmento, fino a trovare un picco.
+
+Tenere nota che q viene scelto \textbf{Arbitrariamente}, per facilitare i calcoli lo inizializzo a $q=n/2$, questo velocizza \textbf{esponenzialmente} l'esecuzione, ne consegue un algoritmo di tipo Divide et Impera.
+\newline
+\newline \textbf{Quanti controlli vanno eseguiti?}
+\newline Si definisce una funzione tempo, la quale risulta implicita , perché T è definita in termini di se stessa, risulta una \textbf{relazione di ricorrenza}. Si usa il \textbf{Metodo dello Srotolamento} per esplicitarla.
+\begin{algorithm}
+\caption{Peak-DI(A,i,j)}
+\begin{algorithmic}
+\REQUIRE$i\leq j$
+\STATE $q \leftarrow [(i+j)/2]$
+\IF{ $A[q-1] \leq A[q] \geq A[q+1]$}
+\RETURN p
+\ELSIF{ $A[q-1] > A[q] \lor A[q] < A[q+1]$}
+    \IF{$A[q-1] > A[q]$} 
+    \RETURN PeakFind-DI$(A[i...q-1])$
+    \ELSE 
+    \RETURN PeakFind-DI$(A[q+1...j])$
+    \ENDIF
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+\newline
+Tempo T(n)= %aggiungere tutta la dimostrazione?
+\begin{cases}
+1, & \text{se  $n = 1$ }\\
+T(\frac{n}{2})+1, &\text{ se $n > 1$} 
+\end{cases}
+\newline
+Per esplicitazione otteniamo che \[T(n) = 1 + \log_2 n\] per $ 1 \leq k \leq \log_2 n$ \newline \large Il tempo logaritmico è infinitesimalmente più piccolo del tempo lineare.
+\section{Problemi Insolubili}
+\subsection{Problema dell'Halt}
+Halt(P,I)
+\begin{cases}
+    \text{true}, & $\text{se P(I) termina}$ \\
+    \text{false}, & $\text{altrimenti}$
+\end{cases}
+
+
+Questa funzione termina solo se la funzione non termina. \textbf{Teorema dell'indecidibilità dell'Halt}
+\section{Problemi Intrattabili}
+\section{Analisi Qualitativa}
+Avendo una formalizzazione di un problema viene fornita una nuova soluzione sotto forma di algoritmo in maniera \textbf{astratta}, per prima cosa si deve dimostrare che l'algoritmo risolve il problema per tutte le istanze, poi esegue un calcolo della complessità. Se si completa la prima parte allora possediamo un \textbf{vero} algoritmo e si osserva se effettivamente termina, la seconda verrà osservata in seguito. 
+\subsubsection{I Disastri Possibili}
+Durante la creazione di un algoritmo si possono presentare diverse situazioni indesiderate: \begin{itemize}
+    \item Bugs: Letteralmente "insetti", errori di calcolo o logici causati da una cattiva programmazione da parte del progettatore.
+\end{itemize}
+\subsection{Verificatore immaginario}
+Con la creazione di un algoritmo serve scoprire la presenza di un errore per poterlo individuare e negare la correttezza dell'algoritmo. La correttezza di un algoritmo su numero finito di iterazioni non implica la correttezza all'infinito. Viene quindi usata la \textbf{logica}.
+\subsection{Correttezza parziale e totale}
+Con qualunque ingresso \textit{legale}:
+\begin{itemize}
+    \item Se si raggiunge l'uscita $\Rightarrow$ Correttezza \textbf{Parziale}.
+    \item Se si raggiunge \textbf{sempre} l'uscita $\Rightarrow$ Correttezza \textbf{Totale}.
+\end{itemize}
+Di norma viene prima controllata la correttezza parziale e solo in un secondo momento viene dimostrata la correttezza totale.
+\subsection{Specifica dell'algoritmo}
+\begin{itemize}
+    \item Pre-Condizione: Ipotesi di ingresso;
+    \item Post-Condizione: Proprietà dell'uscita.
+\end{itemize}
+Queste condizioni servono a permette la validità di un immaginario \textit{contratto} dove il client e l'algoritmo devono sottostare a delle specifiche regole per ottenere il corretto funzionamento. Tutto quello che è in pre-condizione va ipotizzato come \textbf{vero} e quindi non sarà controllato nell'algoritmo.
+\subsection{Ricorsione}
+Per facilitare la lettura e l'analisi dell'algoritmo, per convenzione, deve essere scritto senza salti e in maniera lineare.
+\newline Cos'è la ricorsione? \definition{Una funzione è ricorsiva se nella sua definizione utilizza direttamente o indirettamente sé stessa}
+
+Durante un ricorsione, se abbiamo un caso in cui termina, abbiamo la garanzia che ad ogni step di ricorsione il caso diminuisce fino ad arrivare ad un \textbf{caso base}.
+\subsubsection{Le torri di Hanoi}
+Dati tre pioli su cui sono inseriti n dischi di diametro crescente, spostare la torre da un piolo sorgente ad un piolo destinazione, sfruttando un piolo d'appoggio muovendo un solo disco alla volta, senza mai sovrapporre un disco più grande ad uno più piccolo.
+\begin{algorithm}
+    \caption{Hanoi(S,D,A)}
+    \begin{algorithmic}
+    \REQUIRE Abbiamo 3 pioli: Sorgente, Destinazione, Ausilio
+    
+       \STATE
+        \IF{Sopra(sorgente) è vuota}
+            \STATE Sposto l'unico disco di cui è fata sorgente su destinazione
+        \ELSE
+        \STATE Hanoi(sopra(sorgente),ausilio,destinazione)
+        \STATE Sposto l'unico disco di cui è fata sorgente su destinazione
+        \STATE Hanoi(ausilio,sopra(destinazione),sorgente)
+        \ENDIF
+    \end{algorithmic}
+\end{algorithm}
+\subsection{Lo schema di induzione}
+Si divide in due parti: \begin{itemize}
+    \item Il caso base: P(0)
+    \item Il passo induttivo: $P(0) \Rightarrow$ P(n+1). L' ipotesi P(n) si chiama \textit{ipotesi induttiva}
+\end{itemize}
+\[ \frac{P(0) \qquad \forall m.P(m) \Rightarrow P(m+1)}{\forall n.P(n)}\]
+
+\subsubsection{Esempio di Ricorsione}
+Divisione ricorsiva:
+\[a-b-b....-b = r < b\]
+diventa
+\[ (a-b)-b...-b=r < b\]
+per cui \[ a - b = b \ q + r\]
+avremo come resto $a -b$ con $a-b < a$ in quanto $b > 0$.
+\begin{algorithm}
+    \caption{Div-Ric(a,b)}
+    \begin{algorithmic}
+        \REQUIRE $a \geq 0, b > 0$
+        \ENSURE
+        \IF{$a < b$}
+        \STATE q, \: r \leftarrow 0,a
+        \ELSE 
+        \STATE $q', \: r \leftarrow \text{Div-Rec(a-b,b)}$
+        \STATE $q \leftarrow q' + 1$
+        \ENDIF
+        \RETURN q,r
+    \end{algorithmic}
+\end{algorithm}
+\newline
+Quindi l'induzione completa con caso base: P(0) \newline e passo: \newline $\forall \: m[\forall n < m.P(n) \Rightarrow P(m)]$
+\[\frac{[\forall m < n.P(m)] \Rightarrow P(n)}{\forall n.P(n)}\]
+(Ricordarsi che nell'implicazione logica se l'antecedente [ipotesi] è falso, allora l'implicazione risulta vera). Spesso il caso base non viene specificato in quanto sottinteso nel calcolo.
+
+\subsection{Divisione Iterativa}
+A differenza della ricorsione è un percorso \textbf{lineare} dove ogni passo è della stessa forma, in quanto:\newline
+\definition{\textbf{Iterazione}: Ripetizione del Corpo.}\newline
+\textbf{Verifica funzionale} controlla e verifica se un algoritmo si comporta nella maniera che noi ci aspettiamo e che restituisca il risultato desiderato. 
+
+L'algoritmo viene diviso in 3 parti:
+\begin{itemize}
+    \item Si presuppone il valore/i desiderato/i;
+    \item Si produce il calcolo funzionale dell'algoritmo, quale verrà ripetuto numero volte;
+    \begin{itemize}
+        \item Viene protetto da una \textbf{guardia} che controlla una certa condizione ad ogni ciclo.
+    \end{itemize}
+    \item Si raggiunge la condizione finale e termina l'algoritmo.
+\end{itemize}
+Le diverse variabili prendono determinati nomi in base alla loro funzione:
+\definition{\textbf{Parametri}: Valori che non variano ad ogni funzione.}
+\definition{\textbf{Variabili}: Valori che mutano in base all'iterazione.}
+\definition{\textbf{Accumulatore}:}
+\begin{algorithm}
+    \caption{Div-It(a,b)}
+    \begin{algorithmic}
+    \REQUIRE $a>0, \: b>0$
+    \ENSURE $\text{Return} \: q,r : a = b\cdot q +r \land 0 \leq r < b$
+        \STATE $r \leftarrow a$ 
+        \STATE $q \leftarrow 0$
+        \WHILE{ $r \geq b$  } 
+            \STATE $r \leftarrow r-b$ 
+            \STATE $q \leftarrow q+1$
+        \ENDWHILE
+        \STATE \COMMENT{\text{Inv: }$a = bq + r \land 0 \leq r$}
+        \RETURN $q,r$
+    \end{algorithmic}
+\end{algorithm}
+\definition{\textbf{Invariante}: Un asserto che pur cambiando i valori delle variabili, resta sempre vero.}
+\subsection{Accumulatori ed Invarianti}
+Un accumulatore viene sempre inizializzato (pre entrare nel ciclo deve avere un valore). Nell'algoritmo vengono spesso usate delle \textit{variabili di appoggio} ovvero delle variabili temporanee mirate ad evitare lo "sporcarsi" di variabili più importanti, questi dipendono dai valori genitori; alla fine del ciclo vengono sempre \textbf{re-inizializzate}.
+\subsection{Algoritmo di Euclide}
+\begin{algorithm}
+    \caption{Algo di Euclide}
+    \begin{algorithmic}
+        \STATE $n = m \cdot q_0 + r_0$ \COMMENT{$0 < r_0 < m$}
+        \STATE $m = r_0 \cdot q_1 + r_1$ \COMMENT{$0 < r_1 < r_0$}
+        \STATE $....$
+        \STATE $r_{n-1} = r_n \cdot q_{n-1}$ 
+    \end{algorithmic}
+\end{algorithm}
+\clearpage
+\setcounter{section}{0}
+\part{Algoritmi}
+\section{Insertion Sort}
+Avendo una lista di elementi, impostiamo un valore \textit{i} come indice, avrà lo scopo di separare la parte ordinata dal resto; "i" sarà la nostra \textbf{invariante di ciclo}. Il nucleo del processo è composto dal confronto dell'elemento $A_i$ con quelli non ordinati; nel caso trovassimo un elemento minore del nostro $A_i$ inizieremo a confrontarlo con gli elementi nella parte ordinata. Trovato il suo posto, avremo di nuovo una separazione tra parte ordinata e parte da ordinare, dove la parte ordinata incrementerà e quella da ordinare decrementerà.
+
+\includesvg{insSort.svg}
+\begin{algorithm}
+    \caption{Insertion-Sort(A)}
+    \begin{algorithmic}
+        \FOR {$i \leftarrow 2$ \textbf{to} $\text{length}(A) $} 
+        \STATE $j\leftarrow i$
+        \WHILE{$j>i$ \textbf{and} $A[j-1] > A[j]$}
+        \COMMENT {$Inv=\forall key \in A[j+1..j]. A[j] \leq key$}
+        \STATE 
+        \STATE scambia $A[j-1]$ con $A[j]$
+        \STATE $j\leftarrow j-1$
+        \ENDWHILE
+        \ENDFOR
+        \RETURN A
+    \end{algorithmic}
+\end{algorithm}
+\newline
+Quanto tempo richiede questo algoritmo per terminare? \newline
+$t_i = \text{esecuzioni del while}$\begin{cases}
+    1 & \text{nel caso migliore} \\
+    i & \text{nel caso peggiore}
+\end{cases}
+\[T_{ins} = (c_1+c_2)n-c_2+c_3\sum_{i=2}^n i + (c_4+c_5)\sum_{i=2}^n(i-1)\]
+Per amor di noi stessi la semplifichiamo:
+\[\frac{c_3+c_4+c_5}{2}n^2 + (c_1+c_2+\frac{c_3-c_4-c_5}{2})n - (c_2 + c_3)\]
+ci permettiamo di mettere:
+$\frac{c_3+c_4+c_5}{2} = a, \: c_1+c_2+\frac{c_3-c_4-c_5}{2} = b \: c_2+c_3 = c$
+quindi:
+\[an^2 + bn + c\]
+da qui possiamo osservare che \textbf{La complessità temporale dell'Insertion Sort è \textit{Quadratica}}.
+\section{Selection Sort}
+\begin{algorithm}
+    \caption{Select-Sort(A)}
+    \begin{algorithmic}
+        \FOR{$i\leftarrow 1$ \textbf{to} length $(A)-1$}
+        \STATE k \leftarrow i
+        \FOR{ $j\leftarrow i + 1$ \textbf{to} length $(A)$}
+        \IF{$A[k]>A[j]$}
+        \STATE $k \leftarrow j$
+        \ENDIF
+        \ENDFOR
+        \STATE scambia $A[i]$ con $A[k]$
+        \ENDFOR
+        \RETURN A
+    \end{algorithmic}
+\end{algorithm}
+Complessità?
+\[T_{set}(n) = \frac{1}{2}n^2 + \frac{7}{2}n - 3\]
+(Calcolarsi per esercizio la tabella da soli)
+\newline \textbf{Avrà complessità quadratica}
+\section{Definizione del tempo}
+\definition{Il tempo di un algoritmo è: \begin{itemize}
+    \item Il numero di secondi;
+    \item Il numero delle operazioni elementari, ciascuna con il proprio \textbf{coefficiente};
+    \item Il numero delle volte che una specifica operazione viene eseguita;
+\end{itemize}}
+\subsection{Dimensione di Ingresso}
+Distinguiamo due casi possibili:
+caso migliore \[T_best(n)=min\{ T(x): |x| = n \}\]
+caso peggiore
+\[T_worst(n)=max\{ T(x): |x| = n\}\]
+\subsection{Confronto tra funzioni}
+\subsubsection{O grande}
+O grande ha lo scopo di imporre un limite superiore alla grandezza
+\[f(n) \in O(g(n)) \]\[\iff\]\[ \exists c > 0, \: n_0 \forall n > n_0. f(n) \leq cg(n)\]
+In questo caso possiamo definire quando una funzione è limitata superiormente.
+\textbf{Nota:} per c basta trovare un \textit{qualsiasi valore} che faccia funzionare la funzione, in sua mancanza, le due funzioni non sarebbero in relazione come funzioni lineari.
+
+In parole brevi, si dice che $f(n) \: O(g(n))$ se g(n) delimita la crescita di f(n), se \textbf{almeno una volta} f(n) avesse sorpassato g(n) nell'intervallo di interesse, non sarebbe più stato O(g(n)). La costante può anche essere usata per \textbf{traslare} la funzione e ignorare un numero \textbf{finito} di casi. (Se dopo un certo x sarebbe O-grande, allora si mette c adatta e si considera O-grande). 
+
+\newline
+\textbf{Esercitarsi sulle dimostrazioni sul peso delle costanti}
+[missing]
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
+ 
